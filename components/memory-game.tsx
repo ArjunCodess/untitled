@@ -86,6 +86,8 @@ export default function MemoryGame() {
                             <Image
                                 alt={`cat ${index}`}
                                 src={isFlipped ? item.imageUrl : "https://via.placeholder.com/120"}
+                                width={100}
+                                height={100}
                                 className="h-24"
                             />
                         </div>
@@ -102,7 +104,7 @@ export default function MemoryGame() {
                 <div>
                     <p className="mt-10 text-3xl font-bold text-green-500">our story is still fresh in your mind, right?</p>
                     <p className="text-3xl font-bold text-green-500 pb-5">impressive score btw.</p>
-                    <Link href="/memories/x">
+                    <Link href="/memories/1">
                         <Button variant="default" className="border p-4 rounded-full border-neutral-400">
                             let&apos;s review a bunch of memories together.<ArrowRight />
                         </Button>
