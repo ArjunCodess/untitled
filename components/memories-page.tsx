@@ -37,7 +37,7 @@ export default function MemoriesPage({ slug }: { slug: string }) {
                     <Link key={key} href={`/memories/${key}`}>
                         <Button
                             variant={key === slug ? 'default' : 'ghost'}
-                            className={cn('text-sm', { 'bg-blue-500 text-white rounded-full': key === slug })}
+                            className={cn('text-sm', { 'bg-blue-500 text-white rounded-full hover:bg-blue-400': key === slug })}
                         >
                             {key}
                         </Button>

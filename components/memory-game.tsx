@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import shuffle from "./shuffle";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
@@ -7,16 +7,16 @@ import Image from "next/image";
 
 // items with ids and image urls
 const itemsWithIds = [
-    { id: 1, imageUrl: "https://robohash.org/1?set=set4&&size=80x80" },
-    { id: 1, imageUrl: "https://robohash.org/1?set=set4&&size=80x80" },
-    { id: 2, imageUrl: "https://robohash.org/2?set=set4&&size=80x80" },
-    { id: 2, imageUrl: "https://robohash.org/2?set=set4&&size=80x80" },
-    { id: 3, imageUrl: "https://robohash.org/3?set=set4&&size=80x80" },
-    { id: 3, imageUrl: "https://robohash.org/3?set=set4&&size=80x80" },
-    { id: 4, imageUrl: "https://robohash.org/4?set=set4&&size=80x80" },
-    { id: 4, imageUrl: "https://robohash.org/4?set=set4&&size=80x80" },
-    { id: 5, imageUrl: "https://robohash.org/5?set=set4&&size=80x80" },
-    { id: 5, imageUrl: "https://robohash.org/5?set=set4&&size=80x80" },
+    { id: 1, imageUrl: "/images/card1.png" },
+    { id: 1, imageUrl: "/images/card5.png" },
+    { id: 2, imageUrl: "/images/card2.png" },
+    { id: 2, imageUrl: "/images/card3.png" },
+    { id: 3, imageUrl: "/images/card4.png" },
+    { id: 3, imageUrl: "/images/card6.png" },
+    { id: 4, imageUrl: "/images/card8.png" },
+    { id: 4, imageUrl: "/images/card9.png" },
+    { id: 5, imageUrl: "/images/card7.png" },
+    { id: 5, imageUrl: "/images/card10.png" },
 ];
 
 // Shuffle items
@@ -37,6 +37,7 @@ export default function MemoryGame() {
     const [score, setScore] = useState<number>(0); // Initialize score state
 
     const timer = useRef<NodeJS.Timeout | null>(null);
+    const messageRef = useRef<HTMLDivElement | null>(null); // Ref for the message div
 
     const handleClick = (index: number, id: number): void => {
         if (firstCard.index === index || secondCard.index === index || matchedPairs[id]) {
@@ -71,6 +72,10 @@ export default function MemoryGame() {
 
     const allPairsMatched = Object.keys(matchedPairs).length === itemsWithIds.length / 2;
 
+    useEffect(() => {
+        if (allPairsMatched && messageRef.current) messageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }, [allPairsMatched]);
+
     return (
         <div className="text-neutral-200 text-center md:my-16 my-10 max-w-5xl mx-auto">
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-5 my-5">
@@ -88,7 +93,6 @@ export default function MemoryGame() {
                                 src={isFlipped ? item.imageUrl : "https://via.placeholder.com/120"}
                                 width={100}
                                 height={100}
-                                className="h-24"
                             />
                         </div>
                     );
@@ -101,12 +105,12 @@ export default function MemoryGame() {
                 Score: {score}
             </p>
             {allPairsMatched && (
-                <div>
-                    <p className="mt-10 text-3xl font-bold text-green-500">our story is still fresh in your mind, right?</p>
-                    <p className="text-3xl font-bold text-green-500 pb-5">impressive score btw.</p>
+                <div ref={messageRef} className="transition duration-300" id="message">
+                    <p className="mt-10 text-3xl font-bold text-green-500">Our story is still fresh in your mind, right?</p>
+                    <p className="text-3xl font-bold text-green-500 pb-5">Impressive score btw.</p>
                     <Link href="/memories/1">
                         <Button variant="default" className="border p-4 rounded-full border-neutral-400">
-                            let&apos;s review a bunch of memories together.<ArrowRight />
+                            Let&apos;s review a bunch of memories together.<ArrowRight />
                         </Button>
                     </Link>
                 </div>

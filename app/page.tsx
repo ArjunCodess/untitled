@@ -2,13 +2,9 @@
 
 import DragCards from "@/components/drag-cards";
 import { CountdownItem } from "@/components/shifting-coutdown";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalTrigger } from "@/components/ui/animated-modal";
+import { Modal, ModalBody, ModalContent, ModalTrigger } from "@/components/ui/animated-modal";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { ElevatorIcon, FoodIcon, ParachuteIcon, VacationIcon } from "@/components/icons";
-import { MicIcon, PlaneIcon } from "lucide-react";
 import MemoryGame from "@/components/memory-game";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { useWindowSize } from "react-use";
@@ -27,17 +23,9 @@ export default function Home() {
 
     const handleOpenModal = () => setIsModalOpen(true);
 
-    const images = [
-        "https://images.unsplash.com/photo-1517322048670-4fba75cbbb62?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1573790387438-4da905039392?q=80&w=3425&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1554931670-4ebfabf6e7a9?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=2581&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    ];
-
     return (
         <main>
-            {confetti && <Confetti width={width-10} height={1.7*(height-10)} />}
+            {confetti && <Confetti width={width - 10} height={1.7 * (height - 10)} />}
 
             <section className="max-h-screen">
                 <DragCards />
@@ -61,95 +49,21 @@ export default function Home() {
                     <ModalTrigger className="text-white flex justify-center w-full h-[430px] items-center">
                         <section className="flex justify-center items-center text-white">
                             <div className="text-center">
-                                <h1 className="text-4xl md:text-6xl font-bold">Your Hero Text Here</h1>
+                                <h1 className="text-4xl md:text-6xl font-bold">hey. click here!</h1>
                             </div>
                         </section>
                     </ModalTrigger>
                     <ModalBody>
                         <ModalContent>
-                            <h4 className="text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
-                                Book your trip to{" "}
-                                <span className="px-1 py-0.5 rounded-md bg-gray-100 dark:bg-neutral-800 dark:border-neutral-700 border border-gray-200">
-                                    Bali
-                                </span>{" "}
-                                now! ✈️
+                            <h4 className="text-2xl md:text-4xl text-neutral-950 font-bold text-center mb-5">
+                                fgdjgf
                             </h4>
-                            <div className="flex justify-center items-center">
-                                {images.map((image, idx) => (
-                                    <motion.div
-                                        key={"images" + idx}
-                                        style={{
-                                            rotate: Math.random() * 20 - 10,
-                                        }}
-                                        whileHover={{
-                                            scale: 1.1,
-                                            rotate: 0,
-                                            zIndex: 100,
-                                        }}
-                                        whileTap={{
-                                            scale: 1.1,
-                                            rotate: 0,
-                                            zIndex: 100,
-                                        }}
-                                        className="rounded-xl -mr-4 mt-4 p-1 bg-white dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
-                                    >
-                                        <Image
-                                            src={image}
-                                            alt="bali images"
-                                            width="500"
-                                            height="500"
-                                            className="rounded-lg h-20 w-20 md:h-40 md:w-40 object-cover flex-shrink-0"
-                                        />
-                                    </motion.div>
-                                ))}
-                            </div>
-                            <div className="py-10 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start max-w-sm mx-auto">
-                                <div className="flex  items-center justify-center">
-                                    <PlaneIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        5 connecting flights
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                    <ElevatorIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        12 hotels
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                    <VacationIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        69 visiting spots
-                                    </span>
-                                </div>
-                                <div className="flex  items-center justify-center">
-                                    <FoodIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        Good food everyday
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                    <MicIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        Open Mic
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                    <ParachuteIcon className="mr-1 text-neutral-700 dark:text-neutral-300 h-4 w-4" />
-                                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                                        Paragliding
-                                    </span>
-                                </div>
+                            <div className="pt-4 mx-auto text-neutral-800">
+                                <p className="flex items-center justify-center">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur assumenda numquam quibusdam cum, suscipit neque quam illum. Porro eveniet amet delectus voluptate laborum ex neque perferendis quidem fuga facere! Expedita repellat iusto error aliquam natus reprehenderit facilis hic distinctio sunt architecto laboriosam voluptas, praesentium saepe ducimus delectus? Totam, asperiores doloremque harum expedita quidem necessitatibus libero autem aspernatur ab sint iste in beatae fuga inventore quibusdam mollitia consequuntur explicabo molestiae, assumenda velit odio saepe. Culpa commodi deleniti aliquam voluptate quaerat consequuntur amet quos, illo repellendus excepturi modi harum totam libero ex in aspernatur, mollitia rem velit ad iure praesentium cumque dolor necessitatibus? Voluptas, expedita magnam. Temporibus nam labore accusantium sit cum quisquam quas at
+                                </p>
                             </div>
                         </ModalContent>
-                        <ModalFooter className="gap-4">
-                            <button className="px-2 py-1 bg-gray-200 text-black dark:bg-neutral-950 dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28" onClick={() => setIsModalOpen(false)}>
-                                Cancel
-                            </button>
-                            <button className="bg-neutral-950 text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28">
-                                Book Now
-                            </button>
-                        </ModalFooter>
                     </ModalBody>
                 </Modal>
             </section>
