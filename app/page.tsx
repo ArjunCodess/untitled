@@ -18,14 +18,14 @@ export default function Home() {
 
     const handleConfetti = () => {
         setConfetti(true);
-        setTimeout(() => setConfetti(false), 8000);
+        setTimeout(() => setConfetti(false), 10000);
     };
 
     const handleOpenModal = () => setIsModalOpen(true);
 
     return (
         <main>
-            {confetti && <Confetti width={width - 10} height={1.7 * (height - 10)} />}
+            {confetti && <Confetti width={width - 10} height={height - 10} />}
 
             <section className="max-h-screen">
                 <DragCards />
@@ -40,32 +40,6 @@ export default function Home() {
                     <CountdownItem unit="Minute" text="minutes" onZero={handleConfetti} />
                     <CountdownItem unit="Second" text="seconds" onZero={() => { handleConfetti(); handleOpenModal(); }} />
                 </div>
-            </section>
-
-            <Separator className="bg-neutral-100" />
-
-            <section className="overflow-hidden">
-                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                    <ModalTrigger className="text-white flex justify-center w-full h-[430px] items-center">
-                        <section className="flex justify-center items-center text-white">
-                            <div className="text-center">
-                                <h1 className="text-4xl md:text-6xl font-bold">hey. click here!</h1>
-                            </div>
-                        </section>
-                    </ModalTrigger>
-                    <ModalBody>
-                        <ModalContent>
-                            <h4 className="text-2xl md:text-4xl text-neutral-950 font-bold text-center mb-5">
-                                fgdjgf
-                            </h4>
-                            <div className="pt-4 mx-auto text-neutral-800">
-                                <p className="flex items-center justify-center">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aspernatur assumenda numquam quibusdam cum, suscipit neque quam illum. Porro eveniet amet delectus voluptate laborum ex neque perferendis quidem fuga facere! Expedita repellat iusto error aliquam natus reprehenderit facilis hic distinctio sunt architecto laboriosam voluptas, praesentium saepe ducimus delectus? Totam, asperiores doloremque harum expedita quidem necessitatibus libero autem aspernatur ab sint iste in beatae fuga inventore quibusdam mollitia consequuntur explicabo molestiae, assumenda velit odio saepe. Culpa commodi deleniti aliquam voluptate quaerat consequuntur amet quos, illo repellendus excepturi modi harum totam libero ex in aspernatur, mollitia rem velit ad iure praesentium cumque dolor necessitatibus? Voluptas, expedita magnam. Temporibus nam labore accusantium sit cum quisquam quas at
-                                </p>
-                            </div>
-                        </ModalContent>
-                    </ModalBody>
-                </Modal>
             </section>
 
             <Separator className="bg-neutral-100" />
