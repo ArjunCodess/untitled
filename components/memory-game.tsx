@@ -90,7 +90,7 @@ export default function MemoryGame() {
                             <div className="backSide"></div>
                             <Image
                                 alt={`cat ${index}`}
-                                src={isFlipped ? item.imageUrl : "https://via.placeholder.com/120"}
+                                src={item.imageUrl}
                                 width={100}
                                 height={100}
                             />

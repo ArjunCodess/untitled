@@ -8,7 +8,7 @@ const DragCards = () => {
     return (
         <section className="relative grid min-h-screen w-full place-content-center overflow-hidden">
             <h2 className="relative z-0 text-[20vw] font-black text-neutral-800 md:text-[200px]">
-                MISHIKA<span className="text-orange-200">.</span>
+                MISHIKA<span className="text-[#f6c492]">.</span>
             </h2>
             <Cards />
         </section>
