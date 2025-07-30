@@ -1,4 +1,4 @@
-import { notion } from "@/notion";
+import { notion } from "@/lib/notion";
 import { NotionPage } from "@/components/notion";
 import { pageSlugs } from "@/constants";
 import MemoriesPage from "@/components/memories-page";

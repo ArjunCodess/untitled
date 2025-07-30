@@ -7,7 +7,6 @@ import DragCards from "@/components/drag-cards";
 import { CountdownItem } from "@/components/shifting-coutdown";
 import { Separator } from "@/components/ui/separator";
 import MemoryGame from "@/components/memory-game";
-import { SparklesCore } from "@/components/ui/sparkles";
 
 export default function HomeClient() {
   const [confetti, setConfetti] = useState(false);
@@ -38,17 +37,6 @@ export default function HomeClient() {
           <CountdownItem unit="Second" text="seconds" onZero={() => { handleConfetti(); handleOpenModal(); }} />
         </div>
       </section>
-      
-      <div className="w-full">
-        <SparklesCore
-          background="transparent"
-          minSize={0.4}
-          maxSize={1}
-          particleDensity={1200}
-          className="w-full h-full"
-          particleColor="#FFFFFF"
-        />
-      </div>
       
       <MemoryGame />
     </>
