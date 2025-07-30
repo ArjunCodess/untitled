@@ -7,7 +7,8 @@ async function getData(pageSlug: string) {
     return await notion.getPage(pageSlug);
 }
 
-export default async function Home({ params }: { params: { slug: string } }) {
+export default async function Home(props: { params: Promise<{ slug: string }> }) {
+    const params = await props.params;
     const pageSlug = pageSlugs[params.slug];
 
     if (!params.slug || !pageSlug) return <div>Page not found</div>;
