@@ -10,7 +10,6 @@ import MemoryGame from "@/components/memory-game";
 
 export default function HomeClient() {
   const [confetti, setConfetti] = useState(false);
-  const [, setIsModalOpen] = useState(false);
 
   const { width, height } = useWindowSize();
 
@@ -18,8 +17,6 @@ export default function HomeClient() {
     setConfetti(true);
     setTimeout(() => setConfetti(false), 10000);
   };
-
-  const handleOpenModal = () => setIsModalOpen(true);
 
   return (
     <>
@@ -36,7 +33,7 @@ export default function HomeClient() {
           <CountdownItem unit="Day" text="days" onZero={handleConfetti} />
           <CountdownItem unit="Hour" text="hours" onZero={handleConfetti} />
           <CountdownItem unit="Minute" text="minutes" onZero={handleConfetti} />
-          <CountdownItem unit="Second" text="seconds" onZero={() => { handleConfetti(); handleOpenModal(); }} />
+          <CountdownItem unit="Second" text="seconds" onZero={handleConfetti} />
         </div>
       </section>
       

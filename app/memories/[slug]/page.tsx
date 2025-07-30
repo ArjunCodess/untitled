@@ -5,10 +5,10 @@ import MemoriesPage from "@/components/memories-page";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
-interface PageProps {
-    params: {
-        slug: string;
-    };
+type Params = Promise<{ slug: string }>;
+
+type PageProps = {
+    params: Params;
 }
 
 async function getData(pageSlug: string) {
@@ -21,7 +21,7 @@ async function getData(pageSlug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const { slug } = params;
+    const { slug } = await params;
     return {
         title: `Memory ${slug}`,
         description: `Memory page ${slug}`,
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function MemoryPage({ params }: PageProps) {
-    const { slug } = params;
+    const { slug } = await params;
     const pageSlug = pageSlugs[slug];
 
     if (!slug || !pageSlug) {
