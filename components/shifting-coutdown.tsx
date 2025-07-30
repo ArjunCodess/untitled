@@ -42,6 +42,7 @@ export const useTimer = (unit: Units, onZero: () => void) => {
 
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const timeRef = useRef(0);
+    const refElement = useRef<HTMLElement | null>(null);
 
     const [time, setTime] = useState(0);
 
@@ -50,8 +51,17 @@ export const useTimer = (unit: Units, onZero: () => void) => {
         intervalRef.current = setInterval(handleCountdown, 1000);
 
         // Cleanup interval on unmount
-        return () => clearInterval(intervalRef.current || undefined);
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
     }, []);
+
+    // Store the ref element when it changes
+    useEffect(() => {
+        if (ref.current) {
+            refElement.current = ref.current;
+        }
+    }, [ref]);
 
     // Countdown handler
     const handleCountdown = async () => {
@@ -67,23 +77,32 @@ export const useTimer = (unit: Units, onZero: () => void) => {
         else if (unit === "Minute") newTime = Math.floor((distance % HOUR) / MINUTE);
         else newTime = Math.floor((distance % MINUTE) / SECOND);
 
+        // Don't attempt animation if the element doesn't exist
+        if (!refElement.current) return;
+
         if (newTime !== timeRef.current) {
-            // Animate out old value
-            await animate(
-                ref.current,
-                { y: ["0%", "-50%"], opacity: [1, 0] },
-                { duration: 0.35 }
-            );
+            try {
+                // Animate out old value
+                await animate(
+                    refElement.current,
+                    { y: ["0%", "-50%"], opacity: [1, 0] },
+                    { duration: 0.35 }
+                );
 
-            timeRef.current = newTime;
-            setTime(newTime);
+                timeRef.current = newTime;
+                setTime(newTime);
 
-            // Animate in new value
-            await animate(
-                ref.current,
-                { y: ["50%", "0%"], opacity: [0, 1] },
-                { duration: 0.35 }
-            );
+                // Animate in new value
+                await animate(
+                    refElement.current,
+                    { y: ["50%", "0%"], opacity: [0, 1] },
+                    { duration: 0.35 }
+                );
+            } catch (error) {
+                // Just update the time without animation if there's an error
+                timeRef.current = newTime;
+                setTime(newTime);
+            }
         }
 
         // Trigger confetti when all units are zero

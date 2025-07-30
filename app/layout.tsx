@@ -12,8 +12,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning className="overflow-hidden">
-            <body className={inter.className}>{children}</body>
+        <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
+            <body className={inter.className} suppressHydrationWarning>{children}</body>
         </html>
     );
 }
