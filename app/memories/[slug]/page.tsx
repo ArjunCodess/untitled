@@ -2,23 +2,62 @@ import { notion } from "@/notion";
 import { NotionPage } from "@/components/notion";
 import { pageSlugs } from "@/constants";
 import MemoriesPage from "@/components/memories-page";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 
-async function getData(pageSlug: string) {
-    return await notion.getPage(pageSlug);
+interface PageProps {
+    params: {
+        slug: string;
+    };
 }
 
-export default async function Home(props: { params: Promise<{ slug: string }> }) {
-    const params = await props.params;
-    const pageSlug = pageSlugs[params.slug];
+async function getData(pageSlug: string) {
+    try {
+        return await notion.getPage(pageSlug);
+    } catch (error) {
+        console.error("Error fetching Notion page:", error);
+        return null;
+    }
+}
 
-    if (!params.slug || !pageSlug) return <div>Page not found</div>;
+export async function generateMetadata({ params }: PageProps) {
+    const { slug } = params;
+    return {
+        title: `Memory ${slug}`,
+        description: `Memory page ${slug}`,
+    };
+}
+
+export default async function MemoryPage({ params }: PageProps) {
+    const { slug } = params;
+    const pageSlug = pageSlugs[slug];
+
+    if (!slug || !pageSlug) {
+        notFound();
+    }
 
     const data = await getData(pageSlug);
+    
+    if (!data) {
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center">
+                <h1 className="text-2xl font-bold">Error loading memory</h1>
+                <p>There was an error loading this memory. Please try again later.</p>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <MemoriesPage slug={slug} />
+                </Suspense>
+            </div>
+        );
+    }
 
     return (
         <div>
-            <MemoriesPage slug={params.slug} />
-            <NotionPage recordMap={data} rootPageId={pageSlug} />
+            <Suspense fallback={<div>Loading navigation...</div>}>
+                <MemoriesPage slug={slug} />
+            </Suspense>
+            <Suspense fallback={<div className="p-8 text-center">Loading memory content...</div>}>
+                <NotionPage recordMap={data} rootPageId={pageSlug} />
+            </Suspense>
         </div>
     );
 }

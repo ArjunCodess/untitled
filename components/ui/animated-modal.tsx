@@ -44,7 +44,7 @@ export const useModal = () => {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
     return <ModalProvider>{children}</ModalProvider>;
-}
+};
 
 export const ModalTrigger = ({
     children,
@@ -75,17 +75,23 @@ export const ModalBody = ({
     className?: string;
 }) => {
     const { open } = useModal();
-
+    const modalRef = useRef<HTMLDivElement | null>(null);
+    const { setOpen } = useModal();
+    
+    // Handle body overflow
     useEffect(() => {
         if (open) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
         }
+        
+        return () => {
+            document.body.style.overflow = "auto";
+        };
     }, [open]);
-
-    const modalRef = useRef(null);
-    const { setOpen } = useModal();
+    
+    // Use the custom hook for outside clicks
     useOutsideClick(modalRef, () => setOpen(false));
 
     return (
@@ -97,13 +103,11 @@ export const ModalBody = ({
                     }}
                     animate={{
                         opacity: 1,
-                        backdropFilter: "blur(10px)",
                     }}
                     exit={{
                         opacity: 0,
-                        backdropFilter: "blur(0px)",
                     }}
-                    className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full  flex items-center justify-center z-50"
+                    className="fixed [perspective:800px] [transform-style:preserve-3d] inset-0 h-full w-full flex items-center justify-center z-50"
                 >
                     <Overlay />
 
@@ -224,16 +228,17 @@ const CloseIcon = () => {
     );
 };
 
-// Hook to detect clicks outside of a component.
-// Add it in a separate file, I've added here for simplicity
+// Hook to detect clicks outside of a component
 export const useOutsideClick = (
     ref: React.RefObject<HTMLDivElement | null>,
     callback: Function
 ) => {
     useEffect(() => {
-        const listener = (event: any) => {
-            // DO NOTHING if the element being clicked is the target element or their children
-            if (!ref.current || ref.current.contains(event.target)) {
+        if (typeof window === 'undefined') return;
+
+        const listener = (event: MouseEvent | TouchEvent) => {
+            const target = event.target as Node;
+            if (!ref.current || ref.current.contains(target)) {
                 return;
             }
             callback(event);

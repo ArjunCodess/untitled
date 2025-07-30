@@ -1,9 +1,11 @@
+'use client';
+
 import { useState, useRef, useEffect } from "react";
-import shuffle from "./shuffle";
-import { Button } from "./ui/button";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "./ui/button";
+import shuffle from "./shuffle";
 
 // items with ids and image urls
 const itemsWithIds = [
@@ -19,9 +21,6 @@ const itemsWithIds = [
     { id: 5, imageUrl: "/images/card10.png" },
 ];
 
-// Shuffle items
-const allItems = shuffle([...itemsWithIds]);
-
 interface CardState {
     index: number | null;
     id: number | null;
@@ -30,14 +29,20 @@ interface CardState {
 const defaultState: CardState = { index: null, id: null };
 
 export default function MemoryGame() {
+    const [items, setItems] = useState<typeof itemsWithIds>([]);
     const [firstCard, setFirstCard] = useState<CardState>(defaultState);
     const [secondCard, setSecondCard] = useState<CardState>(defaultState);
     const [matchedPairs, setMatchedPairs] = useState<{ [id: number]: boolean }>({});
     const [moves, setMoves] = useState<number>(0);
-    const [score, setScore] = useState<number>(0); // Initialize score state
+    const [score, setScore] = useState<number>(0);
 
     const timer = useRef<NodeJS.Timeout | null>(null);
-    const messageRef = useRef<HTMLDivElement | null>(null); // Ref for the message div
+    const messageRef = useRef<HTMLDivElement | null>(null);
+
+    // Initialize shuffled cards on the client side only
+    useEffect(() => {
+        setItems(shuffle([...itemsWithIds]));
+    }, []);
 
     const handleClick = (index: number, id: number): void => {
         if (firstCard.index === index || secondCard.index === index || matchedPairs[id]) {
@@ -79,7 +84,7 @@ export default function MemoryGame() {
     return (
         <div className="text-neutral-200 text-center md:my-16 my-10 max-w-5xl mx-auto">
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-5 my-5">
-                {allItems.map((item, index) => {
+                {items.map((item, index) => {
                     const isFlipped = firstCard.index === index || secondCard.index === index || matchedPairs[item.id];
                     return (
                         <div
