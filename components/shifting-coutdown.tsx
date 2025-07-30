@@ -1,7 +1,7 @@
 'use client'
 
 import { useAnimate } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 // Countdown target date
 const COUNTDOWN_FROM = "2025-07-31T00:00:00"; // Midnight at the start of the day
@@ -39,22 +39,10 @@ export const CountdownItem = ({ unit, text, onZero }: { unit: Units; text: strin
 // useTimer hook
 export const useTimer = (unit: Units, onZero: () => void) => {
     const [ref, animate] = useAnimate(); // Using framer-motion for animation
-
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const timeRef = useRef(0);
     const refElement = useRef<HTMLElement | null>(null);
-
     const [time, setTime] = useState(0);
-
-    useEffect(() => {
-        // Start countdown interval
-        intervalRef.current = setInterval(handleCountdown, 1000);
-
-        // Cleanup interval on unmount
-        return () => {
-            if (intervalRef.current) clearInterval(intervalRef.current);
-        };
-    }, []);
 
     // Store the ref element when it changes
     useEffect(() => {
@@ -63,8 +51,8 @@ export const useTimer = (unit: Units, onZero: () => void) => {
         }
     }, [ref]);
 
-    // Countdown handler
-    const handleCountdown = async () => {
+    // Use useCallback to memoize the handleCountdown function
+    const handleCountdown = useCallback(async () => {
         const end = new Date(COUNTDOWN_FROM);
         const now = new Date();
         const distance = Math.max(0, +end - +now); // Calculate distance
@@ -109,7 +97,17 @@ export const useTimer = (unit: Units, onZero: () => void) => {
         if (distance === 0 && unit === "Second") {
             onZero();
         }
-    };
+    }, [animate, unit, onZero]);
+
+    useEffect(() => {
+        // Start countdown interval
+        intervalRef.current = setInterval(handleCountdown, 1000);
+
+        // Cleanup interval on unmount
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, [handleCountdown]);
 
     return { ref, time };
 };

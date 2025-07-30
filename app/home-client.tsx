@@ -10,7 +10,7 @@ import MemoryGame from "@/components/memory-game";
 
 export default function HomeClient() {
   const [confetti, setConfetti] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [, setIsModalOpen] = useState(false);
 
   const { width, height } = useWindowSize();
 
@@ -25,12 +25,14 @@ export default function HomeClient() {
     <>
       {confetti && <Confetti width={width - 10} height={height - 10} />}
       
-      <DragCards />
+      <div className="h-screen flex items-center justify-center">
+        <DragCards />
+      </div>
       
       <Separator className="bg-neutral-100" />
       
-      <section className="h-[200px] flex justify-center items-center">
-        <div className="flex w-full items-center">
+      <section className="h-[200px] flex justify-center items-center w-full overflow-hidden">
+        <div className="flex w-full justify-center">
           <CountdownItem unit="Day" text="days" onZero={handleConfetti} />
           <CountdownItem unit="Hour" text="hours" onZero={handleConfetti} />
           <CountdownItem unit="Minute" text="minutes" onZero={handleConfetti} />
@@ -38,7 +40,20 @@ export default function HomeClient() {
         </div>
       </section>
       
-      <MemoryGame />
+      <Separator className="bg-neutral-100" />
+      
+      <section className="py-16 md:py-24 px-4">
+        <div className="w-full bg-neutral-950 flex flex-col items-center justify-center overflow-hidden rounded-md mb-16">
+          <h2 className="text-lg lg:text-xl text-center text-neutral-200 relative z-20 pt-8">
+            memory surprise test.
+          </h2>
+          <h1 className="text-4xl lg:text-6xl font-bold text-center text-white relative pb-8">
+            let&apos;s play a game!
+          </h1>
+        </div>
+        
+        <MemoryGame />
+      </section>
     </>
   );
-} 
+}
