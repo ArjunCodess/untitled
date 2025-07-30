@@ -4,7 +4,7 @@ import { useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 // Countdown target date
-const COUNTDOWN_FROM = "2024-07-31T00:00:00"; // Midnight at the start of the day
+const COUNTDOWN_FROM = "2025-07-31T00:00:00"; // Midnight at the start of the day
 
 // Constants for time calculations
 const SECOND = 1000;
